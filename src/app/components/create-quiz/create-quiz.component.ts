@@ -88,7 +88,7 @@ export class CreateQuizComponent {
     const dataStr = JSON.stringify(quizJson, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
-    const exportFileDefaultName = 'quiz.json';
+    const exportFileDefaultName = 'quizz_questions.json';
 
     const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
