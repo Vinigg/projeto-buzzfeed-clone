@@ -1,0 +1,29 @@
+.create_quiz_button_container{
+  height: 50px;
+  width: 100%;
+}
+
+.btn-create-quiz{
+  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid #d31009;
+  padding: 5px 15px;
+  text-decoration: none;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 17px;
+  text-shadow: 0 1px 0 #521010;
+  height: 100%;
+  width: 200px;
+  display: inline-block;
+}
+
+.btn-create-quiz:hover{
+  background-color: #ff0800;
+}
+
+.btn-create-quiz:active{
+  position: relative;
+  top: 1px;
+}
