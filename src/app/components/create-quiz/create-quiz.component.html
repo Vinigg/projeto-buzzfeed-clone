@@ -44,8 +44,8 @@
             <input type="text" formControlName="optionText" placeholder="Texto da opção">
             <select formControlName="alias">
               <option value="">Selecione o alias</option>
-              <option value="A">A (Vilão)</option>
-              <option value="B">B (Herói)</option>
+              <option value="A">A ({{ getAliasLabels().a }})</option>
+              <option value="B">B ({{ getAliasLabels().b }})</option>
             </select>
             <button type="button" (click)="removeOption(qIndex, oIndex)" *ngIf="getOptions(qIndex).length > 2">Remover</button>
             <div *ngIf="getOptions(qIndex).at(oIndex).get('optionText')?.invalid && getOptions(qIndex).at(oIndex).get('optionText')?.touched" class="error-message">

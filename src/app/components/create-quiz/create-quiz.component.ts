@@ -118,4 +118,12 @@ export class CreateQuizComponent {
   goBack(){
     this.router.navigate(['/home'])
   }
+
+  getAliasLabels(): { a: string, b: string } {
+    const form = this.quizForm.value;
+    return {
+      a: form.resultA || 'Vilão', // Valor padrão caso não preenchido
+      b: form.resultB || 'Herói'  // Valor padrão caso não preenchido
+    };
+  }
 }
