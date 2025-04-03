@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Assets data
+/src/assets/data
+src/assets/data/quizz_questions.json

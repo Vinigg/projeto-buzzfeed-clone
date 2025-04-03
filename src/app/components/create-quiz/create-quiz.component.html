@@ -1,31 +1,72 @@
+<!-- create-quiz.component.html -->
 <div class="create_quiz__container">
   <div class="create_quiz_logo">
     <img src="images/logo.png" alt="">
     <h1>Crie seu quiz</h1>
   </div>
-  <div class="create_quiz_title">
-    <h1>Escolha o titulo do quiz</h1>
-    <input type="text" placeholder="titulo do quiz">
-  </div>
-  <div class="create_quiz_results">
-    <h1>Informe os 2 possívels resultados</h1>
-    <input type="text" placeholder="resultado 1">
-    <input type="text" placeholder="resultado 2">
-  </div>
-  <div class="create_quiz_questions">
-    <!-- Fazer o input de opção ser mais dinâmico, repetindo a criação de perguntas e opções 5 vezes na tela -->
-    <h2>Insira a pergunta</h2>
-    <input type="text" placeholder="pergunta 1">
-  </div>
-  <div class="create_quiz_options">
-    <!-- Fazer o input de opção ser mais dinâmico -->
-    <h2>Informe as opções</h2>
-    <input type="text" placeholder="opção 1">
-    <input type="text" placeholder="opção 2">
-    <input type="text" placeholder="opção 3">
-    <input type="text" placeholder="opção 4">
-  </div>
-  <div class="return_to_quiz">
-    <button>Voltar</button>
-  </div>
+
+  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+    <div class="create_quiz_title">
+      <h1>Escolha o título do quiz</h1>
+      <input type="text" formControlName="title" placeholder="Título do quiz">
+      <div *ngIf="quizForm.get('title')?.invalid && quizForm.get('title')?.touched" class="error-message">
+        Título é obrigatório
+      </div>
+    </div>
+
+    <div class="create_quiz_results">
+      <h1>Informe os 2 possíveis resultados</h1>
+      <div>
+        <input type="text" formControlName="resultA" placeholder="Resultado A (Vilão)">
+        <div *ngIf="quizForm.get('resultA')?.invalid && quizForm.get('resultA')?.touched" class="error-message">
+          Resultado A é obrigatório
+        </div>
+      </div>
+      <div>
+        <input type="text" formControlName="resultB" placeholder="Resultado B (Herói)">
+        <div *ngIf="quizForm.get('resultB')?.invalid && quizForm.get('resultB')?.touched" class="error-message">
+          Resultado B é obrigatório
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="questions" class="create_quiz_questions">
+      <div *ngFor="let question of questions.controls; let qIndex = index" [formGroupName]="qIndex" class="question-group">
+        <h2>Pergunta {{qIndex + 1}}</h2>
+        <input type="text" formControlName="questionText" placeholder="Texto da pergunta" class="input-question-text">
+        <div *ngIf="questions.at(qIndex).get('questionText')?.invalid && questions.at(qIndex).get('questionText')?.touched" class="error-message">
+          Pergunta é obrigatória
+        </div>
+
+        <div formArrayName="options" class="options-group">
+          <h3>Opções</h3>
+          <div *ngFor="let option of getOptions(qIndex).controls; let oIndex = index" [formGroupName]="oIndex" class="option-row">
+            <input type="text" formControlName="optionText" placeholder="Texto da opção">
+            <select formControlName="alias">
+              <option value="">Selecione o alias</option>
+              <option value="A">A (Vilão)</option>
+              <option value="B">B (Herói)</option>
+            </select>
+            <button type="button" (click)="removeOption(qIndex, oIndex)" *ngIf="getOptions(qIndex).length > 2">Remover</button>
+            <div *ngIf="getOptions(qIndex).at(oIndex).get('optionText')?.invalid && getOptions(qIndex).at(oIndex).get('optionText')?.touched" class="error-message">
+              Texto da opção é obrigatório
+            </div>
+            <div *ngIf="getOptions(qIndex).at(oIndex).get('alias')?.invalid && getOptions(qIndex).at(oIndex).get('alias')?.touched" class="error-message">
+              Alias é obrigatório
+            </div>
+          </div>
+          <button type="button" (click)="addOption(qIndex)">Adicionar Opção</button>
+        </div>
+
+        <button type="button" (click)="removeQuestion(qIndex)" *ngIf="questions.length > 1">Remover Pergunta</button>
+      </div>
+
+      <button type="button" (click)="addQuestion()">Adicionar Pergunta</button>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">Gerar Quiz</button>
+      <button type="button" class="return_to_quiz" (click)="goBack()">Voltar</button>
+    </div>
+  </form>
 </div>
